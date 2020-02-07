@@ -1,0 +1,186 @@
+
+<div class="row no-gutters flex-row-reverse ht-100v">
+
+
+
+  <div *ngIf="showTable" class="col-md-7 bg-gray-200 align-items-center justify-content-center">
+
+    <div class="login-wrapper mg-y-30">
+
+      <div class="card widget-10 bd bd-gray-400">
+        <div class="card-header">
+          <div class="card-title">Assembly mapping Result </div>
+          <span class="tx-gray lh-0" (click)="switchInterface()"
+                style="cursor: pointer; color: red;"> << Return </span>
+        </div>
+      </div>
+
+      <div class="card widget-10  bd-gray-400">
+        <div class="card-header">
+          <div class="card-title"> CHROMOSOME:{{coordinate.assembly}}:{{coordinate.seq_region_name}}:25000:30000:1 &nbsp;&nbsp; <em style="color: red;"> --converted--> to GCRH37 </em></div>
+        </div>
+      </div>
+
+      <div class="card widget-10 bd-gray-400 card-3b"  *ngFor="let mapping of mappingResult.mappings; index as i"
+           style="margin-bottom: 12px; margin: 15px; padding: 10px 0 10px 0;">
+
+          <table class="table no-border table-responsive mg-b-0 tx-12">
+            <thead class="no-border">
+            <tr>
+              <th> Mapping </th>
+              <th style="width:30%;">  Coordinate System </th>
+              <th>  Assembly Version </th>
+              <th> Region Name </th>
+              <th> Start </th>
+              <th> End </th>
+              <th> Strand </th>
+            </tr>
+            </thead>
+
+            <tbody class="no-border-x">
+
+                <tr>
+                  <td> Original </td>
+                  <td> {{ mapping.original.coord_system }} </td>
+                  <td> {{ mapping.original.assembly }} </td>
+                  <td> {{ mapping.original.seq_region_name }} </td>
+                  <td> {{ mapping.original.start }} </td>
+                  <td> {{ mapping.original.end }} </td>
+                  <td> {{ mapping.original.strand }} </td>
+                </tr>
+
+                <tr>
+                  <td> Mapped </td>
+                  <td> {{ mapping.mapped.coord_system }} </td>
+                  <td> {{ mapping.mapped.assembly }} </td>
+                  <td> {{ mapping.mapped.seq_region_name }} </td>
+                  <td> {{ mapping.mapped.start }} </td>
+                  <td> {{ mapping.mapped.end }} </td>
+                  <td> {{ mapping.mapped.strand }} </td>
+                </tr>
+
+          </table>
+
+
+        <!-- card-footer
+                  <div class="card-footer tx-12 pd-y-15 bg-transparent">
+                    <a href=""><i class="fa fa-angle-down mg-r-5"></i> Download Results </a>
+                  </div>-->
+        </div>
+
+    </div>
+  </div>
+
+
+
+
+
+
+  <div *ngIf="showForm"  class="col-md-7 bg-gray-200 d-flex align-items-center justify-content-center">
+
+    <div class="login-wrapper wd-250 wd-xl-350 mg-y-30">
+
+
+
+      <h4 class="tx-inverse tx-center"> Assembly Converter </h4>
+      <p class="tx-center mg-b-60"> Carefully Register the Co-ordinates Data</p>
+      <p class="tx-center "
+             (click)="setExampleQuery()"
+             style="cursor: pointer; color: red; margin-top: -45px;"> TRY:chromosome:NCBI34:7:490000:500000:1 </p>
+
+
+      <form #mappingForm="ngForm" (ngSubmit)="getData()">
+
+        <!--<div class="form-group">
+          <input type="text" class="form-control" name="assembly" placeholder="Converts to Assembly Version"
+                 [(ngModel)]="coordinate.assembly" value="{{coordinate.assembly}}">
+        </div> -->
+
+        <div class="form-group" >
+          <label class="d-block tx-11 tx-uppercase tx-medium tx-spacing-1">Original Assembly Version</label>
+          <div class="row row-xs">
+            <div class="col-sm-12">
+              <select class="form-control select2" [(ngModel)]="coordinate.assembly" name="assembly">
+                <option value="GRCh38" selected> GRCh38 </option>
+                <option value="GRCh37">GRCh37</option>
+                <option value="NCBI34"> NCBI34 </option>
+                <option value="NCBI35"> NCBI35 </option>
+                <option value="NCBI36"> NCBI36 </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <div class="form-group" style="margin-top: -15px;">
+          <label class="d-block tx-11 tx-uppercase tx-medium tx-spacing-1">Sequence Region Name :</label>
+          <input type="text" class="form-control" id="seq_region_name" name="seq_region_name" placeholder="Sequence Region Name"
+                 [(ngModel)]="coordinate.seq_region_name">
+        </div>
+
+
+        <div class="form-group">
+          <label class="d-block tx-11 tx-uppercase tx-medium tx-spacing-1">Start Region :</label>
+          <input type="text" class="form-control" name="start" placeholder="Start Region"
+                 [(ngModel)]="coordinate.start" #name="ngModel">
+        </div>
+
+        <div class="form-group">
+          <label class="d-block tx-11 tx-uppercase tx-medium tx-spacing-1">End Region :</label>
+          <input type="text" class="form-control" name="end" placeholder="End Region"
+                 [(ngModel)]="coordinate.end">
+        </div>
+
+        <div class="form-group">
+          <label class="d-block tx-11 tx-uppercase tx-medium tx-spacing-1">Strand :</label>
+          <input type="text" class="form-control" name="strand" placeholder="Strand"
+                 [(ngModel)]="coordinate.strand">
+        </div>
+
+        <div class="form-group">
+          <label class="d-block tx-11 tx-uppercase tx-medium tx-spacing-1">Map to Assembly Version :</label>
+          <div class="row row-xs">
+            <div class="col-sm-12">
+              <select class="form-control select2" [(ngModel)]="mapVersion" name="mapVersion">
+                <option value="GRCh38"> GRCh38 </option>
+                <option value="GRCh37" selected>GRCh37</option>
+                <option value="NCBI34"> NCBI34 </option>
+                <option value="NCBI35"> NCBI35 </option>
+                <option value="NCBI36"> NCBI36 </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+        <button type="submit" class="btn btn-success btn-block"> Convert </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+  <div class="col-md-5 bg-ebi d-flex align-items-center justify-content-center">
+    <div class="wd-250 wd-xl-450 mg-y-30">
+      <div class="signin-logo tx-28 tx-bold tx-white"><span class="tx-normal">[</span> Assembly <span class="tx-white-8">Converter</span> <span class="tx-normal">]</span></div>
+      <div class="tx-white-8 mg-b-60">Developed by Oluwaseun Mosaku</div>
+
+      <h5 class="tx-white">Why AssemblyConverter?</h5>
+      <p class="tx-white-6">The Ensembl provide gene annotation for the human genome. The latest assembly available is GRCh38 but some users still use the previous assembly GRCh37 and want to convert coordinates between the two assemblies.</p>
+      <p class="tx-white-6 mg-b-60">This tool uses the latest human data and the Perl API for Ensembl release 98 to convert coordinates on chrmosome (e.g chromosome 10 from 25000 to 30000 ) to the same region in GRCh37 or any other assembly version</p>
+      <a href="" class="btn btn-outline-white pd-x-25 tx-uppercase tx-12 tx-spacing-2 tx-medium">Download Source Code</a>
+    </div><!-- wd-500 -->
+  </div>
+
+
+
+
+</div><!-- row -->
