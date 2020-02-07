@@ -22,6 +22,10 @@ To run this app on your machine:
 
             sudo java -jar assembly-converter-0.0.1-SNAPSHOT.jar
             
+    To run the app in the background use:
+            
+            sudo java -jar assembly-converter-0.0.1-SNAPSHOT.jar > /dev/null 2>&1 &
+            
 8.) Access te app on http://localhost or http://127.0.0.1:80
 
 8.) Alternatively a running instance of the app can be accessed on my AWS server - This use this app click on: http://ec2-52-56-195-5.eu-west-2.compute.amazonaws.com
